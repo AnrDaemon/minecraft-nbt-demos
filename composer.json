@@ -1,0 +1,22 @@
+{
+    "name": "anrdaemon/minecraft-nbt-demos",
+    "description": "Demos for MC-NBT project.",
+    "type": "project",
+    "license": "WTFPL",
+    "authors": [
+        {
+            "name": "Andrey Repin",
+            "email": "anrdaemon@yandex.ru"
+        }
+    ],
+    "require": {
+        "php-64bit": "^7.0",
+        "anrdaemon/minecraft-nbt": "^0.1.0",
+        "anrdaemon/library": "^1.1"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.x-dev"
+        }
+    }
+}
