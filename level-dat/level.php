@@ -4,7 +4,7 @@
 if(version_compare(PHP_VERSION, '7.0', '<'))
   throw new Exception('Go upgrade, k?');
 
-require_once '_library_init.php';
+require_once dirname(__DIR__) . '/vendor/autoload.php';
 
 use AnrDaemon\Minecraft\NBT;
 
@@ -14,6 +14,6 @@ unset($file);
 
 var_dump($nbt);
 
-$file = new NBT\Writer(new \SplFileObject('level.flat', 'wb'));
+$file = new NBT\Writer(new \SplFileObject(__DIR__ . '/level.flat', 'wb'));
 $file->write($nbt);
 unset($file);

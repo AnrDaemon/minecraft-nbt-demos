@@ -1,10 +1,10 @@
 #!/usr/bin/php7 -f
 <?php
 
-require_once '_library_init.php';
+require_once dirname(__DIR__) . '/vendor/autoload.php';
 
 use AnrDaemon\Minecraft\NBT;
-use AnrDaemon\Hazeron\CartesianCoordinates as Coord;
+use AnrDaemon\Misc\Coordinate3D as Coord;
 
 $fileName = __DIR__ . '/Schematica.schematic';
 

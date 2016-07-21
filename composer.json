@@ -10,7 +10,9 @@
         }
     ],
     "require": {
-        "php-64bit": "^7"
+        "php-64bit": "^7.0",
+        "anrdaemon/minecraft-nbt": "^0.1.0",
+        "anrdaemon/library": "^1.1"
     },
     "extra": {
         "branch-alias": {
