@@ -1,4 +1,4 @@
-#!/usr/bin/php7 -f
+#!/usr/bin/env php -f
 <?php
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
