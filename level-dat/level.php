@@ -1,4 +1,4 @@
-#!/usr/bin/php7 -f
+#!/usr/bin/env php -f
 <?php
 
 if(version_compare(PHP_VERSION, '7.0', '<'))
