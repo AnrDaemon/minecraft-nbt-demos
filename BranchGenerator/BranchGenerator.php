@@ -26,7 +26,7 @@ $stem->setRange(array(
     'length' => -5,
     'dia' => -1.5
   ))
-  ->setLimit(array('dia' => 1));
+  ->setLimit(array('dia' => 2));
 
 $branch = new BranchTwister();
 $branch->setRange(array(
@@ -40,7 +40,7 @@ $branch->setRange(array(
     'length' => .80,
     'dia' => -.7,
   ))
-  ->setLimit(array('dia' => 1));
+  ->setLimit(array('dia' => 1.7));
 
 $trunks[0] = new BranchTrunk($p0, Coords::fromPolar(1, $ap, $av), $len, $r0, $r1);
 $trunks[0]->branch = $branch;
@@ -54,7 +54,7 @@ $white = new Coords(round($p0['x']), round($p0['y']), round($p0['z']));
 $red = clone $trunks[0]->red;
 $blue = clone $trunks[0]->blue;
 
-for($n = 0; $n < 10; $n++)
+for($n = 0; $n < 6; $n++)
 {
   $q = $q0; $q0 = array();
   foreach($q as $joint)

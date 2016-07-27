@@ -103,15 +103,22 @@ class BranchTrunk
   {
     $q0 = array();
 
-    if(!isset($this->branch))
-      return $q0;
-
-    $branched = false;
-    $twist = clone $this;
-    $twist->r1 += $this->branch['force']['dia'];
-
-    if((2 * $twist->r1) >= $this->branch['limit']['dia'])
+    if(isset($this->stem))
     {
+      $trunk = $this->branch($this, $this->stem['range']);
+      $q0[] = $trunk;
+
+      if(isset($this->branch) && (2 * ($trunk->r1 + $this->branch['force']['dia'])) > $this->branch['limit']['dia'])
+      {
+        $trunk->stem = clone $this->stem;
+        $trunk->branch = clone $this->branch;
+      }
+    }
+
+    if(isset($this->branch))
+    {
+      $twist = clone $this;
+      $twist->r1 += $this->branch['force']['dia'];
       $twist->len *= $this->branch['force']['length'];
 
       $twist->ap += $this->branch['force']['yaw'];
@@ -119,9 +126,8 @@ class BranchTrunk
       {
         $trunk = $this->branch($twist, $this->branch['range']);
         $q0[] = $trunk;
-        $branched = true;
 
-        if((2 * $trunk->r1) > $this->stem['limit']['dia'])
+        if((2 * ($trunk->r1 + $this->branch['force']['dia'])) > $this->branch['limit']['dia'])
         {
           $trunk->stem = clone $this->stem;
           $trunk->branch = clone $this->branch;
@@ -133,21 +139,8 @@ class BranchTrunk
       {
         $trunk = $this->branch($twist, $this->branch['range']);
         $q0[] = $trunk;
-        $branched = true;
 
-        if((2 * $trunk->r1) > $this->stem['limit']['dia'])
-        {
-          $trunk->stem = clone $this->stem;
-          $trunk->branch = clone $this->branch;
-        }
-      }
-
-      if($branched)
-      {
-        $trunk = $this->branch($this, $this->stem['range']);
-        $q0[] = $trunk;
-
-        if((2 * $trunk->r1) > $this->stem['limit']['dia'])
+        if((2 * ($trunk->r1 + $this->branch['force']['dia'])) > $this->branch['limit']['dia'])
         {
           $trunk->stem = clone $this->stem;
           $trunk->branch = clone $this->branch;
