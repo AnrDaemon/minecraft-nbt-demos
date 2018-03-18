@@ -5,7 +5,8 @@
 
 namespace AnrDaemon\Minecraft\Interfaces;
 
-use AnrDaemon\Misc\Coordinate3D as Coords;
+use
+  AnrDaemon\Misc\Coordinate3D as Coords;
 
 interface BranchTrunk
 {

@@ -5,11 +5,12 @@
 
 namespace AnrDaemon\Minecraft;
 
-use AnrDaemon\Misc\Coordinate3D as Coords, AnrDaemon\Misc\MtRand;
+use
+  AnrDaemon\Misc\Coordinate3D as Coords,
+  AnrDaemon\Misc\MtRand;
 
 class BranchTrunk
-  implements
-    Interfaces\BranchTrunk
+implements Interfaces\BranchTrunk
 {
   public $p0;
   public $p1;

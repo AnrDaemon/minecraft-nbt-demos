@@ -6,15 +6,24 @@
 
 namespace AnrDaemon;
 
-spl_autoload_register(function($className)
-{
-  $nl = strlen(__NAMESPACE__);
-  if(strncasecmp($className, __NAMESPACE__ . '\\', $nl + 1) !== 0)
-    return;
+return \call_user_func(function(){
+  $nsl = \strlen(__NAMESPACE__);
+  return \spl_autoload_register(
+    function($className)
+    use($nsl)
+    {
+      if(\strncmp($className, __NAMESPACE__, $nsl) !== 0)
+        return;
 
-  $path = realpath(__DIR__ . strtr(substr("$className.php", $nl), '\\', '/'));
-  if(!empty($path))
-  {
-    include_once $path;
-  }
+      $className = \substr($className, $nsl);
+      if(\strlen($className) < 2)
+        return;
+
+      $path = \realpath(__DIR__ . \strtr("$className.php", '\\', '/'));
+      if(!empty($path))
+      {
+        return include_once $path;
+      }
+    }
+  );
 });

@@ -5,12 +5,8 @@
 
 namespace AnrDaemon\Minecraft;
 
-use
-  ArrayAccess,
-  LogicException;
-
 class BranchTwister
-  implements ArrayAccess
+implements \ArrayAccess
 {
   protected $_props = array(
     'range' => array(
@@ -45,7 +41,7 @@ class BranchTwister
             if(is_numeric($value))
               $this->_props[$set][$key] = (float)$value;
             else
-              throw new LogicException("Value must be numeric for \`$set:$key'.");
+              throw new \LogicException("Value must be numeric for \`$set:$key'.");
           }
         }
       else
@@ -57,13 +53,13 @@ class BranchTwister
             if(is_numeric($$key))
               $this->_props[$set][$key] = (float)$$key;
             else
-              throw new LogicException("Value must be numeric for \`$set:$key'.");
+              throw new \LogicException("Value must be numeric for \`$set:$key'.");
           }
         }
       }
     }
     else
-      throw new LogicException("Unknown parameter set \`$set'.");
+      throw new \LogicException("Unknown parameter set \`$set'.");
 
     return $this;
   }
@@ -98,16 +94,16 @@ class BranchTwister
   public function offsetSet($offset, $value)
   {
     if(!isset($this->_props[$offset]))
-      throw new LogicException('Property does not exist.');
+      throw new \LogicException('Property does not exist.');
 
     if(!is_array($value))
-      throw new LogicException('Value must be an array for indirect call.');
+      throw new \LogicException('Value must be an array for indirect call.');
 
     $this->set($offset, $value);
   }
 
   public function offsetUnset($offset)
   {
-    throw new LogicException('Forbidden.');
+    throw new \LogicException('Forbidden.');
   }
 }
