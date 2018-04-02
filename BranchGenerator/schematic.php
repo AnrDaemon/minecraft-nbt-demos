@@ -1,4 +1,4 @@
-#!/usr/bin/env php -f
+#!/usr/bin/env php
 <?php
 
 $_GET['seed'] = 3810;

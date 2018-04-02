@@ -11,7 +11,7 @@
     ],
     "require": {
         "php-64bit": "^7.0",
-        "anrdaemon/minecraft-nbt": "^0.1.0",
+        "anrdaemon/minecraft-nbt": "^0.2",
         "anrdaemon/library": "^1.2"
     },
     "extra": {

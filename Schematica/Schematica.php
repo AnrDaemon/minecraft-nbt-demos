@@ -8,15 +8,16 @@ use AnrDaemon\Misc\Coordinate3D as Coord;
 
 $fileName = __DIR__ . '/Schematica.schematic';
 
-$white = new Coord(1, 2, 1);
+// Anchor point at the center of back (Y(z)=0) plane.
+$white = new Coord(1, 0, 1);
 
 $test = array();
-// Two blocks on vetical.
+// Two blocks on the bottom corners of a back plane. (Y(z)=Z(y)=0)
+$test[] = new Coord(0, 0, 0);
 $test[] = new Coord(2, 0, 0);
-$test[] = new Coord(2, 0, 2);
-// Two blocks on horizontal.
-$test[] = new Coord(0, 2, 0);
+// Two blocks on furthest vetical edge.
 $test[] = new Coord(2, 2, 0);
+$test[] = new Coord(2, 2, 2);
 
 $nbt = new NBT\TAG_Compound('Schematic');
 $nbt[] = new NBT\TAG_String('Materials', 'Alpha');

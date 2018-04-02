@@ -1,11 +1,12 @@
 <?php
 /** Branch trunk primitive.
-* @version SVN: $Id: BranchTrunk.php 223 2016-07-27 00:01:05Z anrdaemon $
+* @version SVN: $Id: BranchTrunk.php 268 2018-03-18 20:49:20Z anrdaemon $
 */
 
 namespace AnrDaemon\Minecraft\Interfaces;
 
-use AnrDaemon\Misc\Coordinate3D as Coords;
+use
+  AnrDaemon\Misc\Coordinate3D as Coords;
 
 interface BranchTrunk
 {

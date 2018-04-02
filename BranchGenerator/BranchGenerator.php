@@ -1,6 +1,8 @@
 <?php
 
-use AnrDaemon\Misc\Coordinate3D as Coords, AnrDaemon\Misc\MtRand,
+use
+  AnrDaemon\Misc\Coordinate3D as Coords,
+  AnrDaemon\Misc\MtRand,
   AnrDaemon\Minecraft\BranchTrunk,
   AnrDaemon\Minecraft\BranchTwister;
 
