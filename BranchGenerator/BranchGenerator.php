@@ -11,7 +11,7 @@ if(!isset($_GET['seed']))
 
 mt_srand($_GET['seed']);
 
-$p0 = Point::fromCartesian(632, 53, 40);
+$p0 = Point::fromCartesian(0, -15, 36);
 $ap = deg2rad(-90);
 $av = deg2rad(2);
 $len = 28;
