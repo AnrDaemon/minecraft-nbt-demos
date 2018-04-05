@@ -74,15 +74,15 @@ implements Interfaces\BranchTrunk
       );
 
     $this->red = Point::fromCartesian(
-        floor(min($points[0]['x'], $points[1]['x'], $points[2]['x'], $points[3]['x'])),
-        floor(min($points[0]['y'], $points[1]['y'], $points[2]['y'], $points[3]['y'])),
-        floor(min($points[0]['z'], $points[1]['z'], $points[2]['z'], $points[3]['z']))
+        floor(min($points[0]->x, $points[1]->x, $points[2]->x, $points[3]->x)),
+        floor(min($points[0]->y, $points[1]->y, $points[2]->y, $points[3]->y)),
+        floor(min($points[0]->z, $points[1]->z, $points[2]->z, $points[3]->z))
       );
 
     $this->blue = Point::fromCartesian(
-        ceil(max($points[0]['x'], $points[1]['x'], $points[2]['x'], $points[3]['x'])),
-        ceil(max($points[0]['y'], $points[1]['y'], $points[2]['y'], $points[3]['y'])),
-        ceil(max($points[0]['z'], $points[1]['z'], $points[2]['z'], $points[3]['z']))
+        ceil(max($points[0]->x, $points[1]->x, $points[2]->x, $points[3]->x)),
+        ceil(max($points[0]->y, $points[1]->y, $points[2]->y, $points[3]->y)),
+        ceil(max($points[0]->z, $points[1]->z, $points[2]->z, $points[3]->z))
       );
   }
 
@@ -202,29 +202,29 @@ L = sqrt(
   {
     if($x instanceof Point)
     {
-      $z = $x['z'];
-      $y = $x['y'];
-      $x = $x['x'];
+      $z = $x->z;
+      $y = $x->y;
+      $x = $x->x;
     }
 
     if(!isset($this->k))
-      $this->k = sqrt($this->dir['x'] * $this->dir['x'] + $this->dir['y'] * $this->dir['y'] + $this->dir['z'] * $this->dir['z']);
+      $this->k = sqrt($this->dir->x * $this->dir->x + $this->dir->y * $this->dir->y + $this->dir->z * $this->dir->z);
 
     $L2 = sqrt(
-        pow(($x - $this->p0['x']) * $this->dir['y'] - ($y - $this->p0['y']) * $this->dir['x'], 2) +
-        pow(($y - $this->p0['y']) * $this->dir['z'] - ($z - $this->p0['z']) * $this->dir['y'], 2) +
-        pow(($z - $this->p0['z']) * $this->dir['x'] - ($x - $this->p0['x']) * $this->dir['z'], 2)
+        pow(($x - $this->p0->x) * $this->dir->y - ($y - $this->p0->y) * $this->dir->x, 2) +
+        pow(($y - $this->p0->y) * $this->dir->z - ($z - $this->p0->z) * $this->dir->y, 2) +
+        pow(($z - $this->p0->z) * $this->dir->x - ($x - $this->p0->x) * $this->dir->z, 2)
       ) / $this->k;
 
     if($L2 <= $this->r0)
     {
-      $c = $this->dir['x'] * $x + $this->dir['y'] * $y + $this->dir['z'] * $z;
+      $c = $this->dir->x * $x + $this->dir->y * $y + $this->dir->z * $z;
 
-      $L0 = abs($c - ($this->dir['x'] * $this->p0['x'] + $this->dir['y'] * $this->p0['y'] + $this->dir['z'] * $this->p0['z'])) / $this->k;
+      $L0 = abs($c - ($this->dir->x * $this->p0->x + $this->dir->y * $this->p0->y + $this->dir->z * $this->p0->z)) / $this->k;
 
       if($L0 <= $this->len)
       {
-        $L1 = abs($c - ($this->dir['x'] * $this->p1['x'] + $this->dir['y'] * $this->p1['y'] + $this->dir['z'] * $this->p1['z'])) / $this->k;
+        $L1 = abs($c - ($this->dir->x * $this->p1->x + $this->dir->y * $this->p1->y + $this->dir->z * $this->p1->z)) / $this->k;
 
         if($L1 <= $this->len)
         {

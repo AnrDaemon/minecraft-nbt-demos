@@ -7,11 +7,11 @@ require_once dirname(__DIR__) . '/vendor/autoload.php';
 require_once 'libs/classloader.php';
 require_once 'BranchGenerator.php';
 
-$dxp = round((512 - $dims['x']) / 2 - $red['x']);
-$dyp = round((384 - $dims['y']) / 2 - $red['y']);
+$dxp = round((512 - $dims->x) / 2 - $red->x);
+$dyp = round((384 - $dims->y) / 2 - $red->y);
 
-$dxs = round((512 - $dims['y']) / 2 - $red['y']);
-$dys = 512 - round(((128 - $dims['z']) / 2 - $red['z']));
+$dxs = round((512 - $dims->y) / 2 - $red->y);
+$dys = 512 - round(((128 - $dims->z) / 2 - $red->z));
 
 $canvas = imagecreatetruecolor(512, 512);
 

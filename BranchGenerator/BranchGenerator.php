@@ -52,7 +52,7 @@ unset($branch, $stem);
 
 $q0[] = $trunks[0];
 
-$white = Point::fromCartesian(round($p0['x']), round($p0['y']), round($p0['z']));
+$white = Point::fromCartesian(round($p0->x), round($p0->y), round($p0->z));
 $red = clone $trunks[0]->red;
 $blue = clone $trunks[0]->blue;
 
@@ -69,17 +69,17 @@ for($n = 0; $n < 6; $n++)
 
       // Expand schematic bounding box.
       $red = Point::fromCartesian(
-        min($red['x'], $trunk->red['x']),
-        min($red['y'], $trunk->red['y']),
-        min($red['z'], $trunk->red['z'])
+        min($red->x, $trunk->red->x),
+        min($red->y, $trunk->red->y),
+        min($red->z, $trunk->red->z)
       );
       $blue = Point::fromCartesian(
-        max($blue['x'], $trunk->blue['x']),
-        max($blue['y'], $trunk->blue['y']),
-        max($blue['z'], $trunk->blue['z'])
+        max($blue->x, $trunk->blue->x),
+        max($blue->y, $trunk->blue->y),
+        max($blue->z, $trunk->blue->z)
       );
     }
   }
 }
 
-$dims = Point::fromCartesian(1 + $blue['x'] - $red['x'], 1 + $blue['y'] - $red['y'], 1 + $blue['z'] - $red['z']);
+$dims = Point::fromCartesian(1 + $blue->x - $red->x, 1 + $blue->y - $red->y, 1 + $blue->z - $red->z);
