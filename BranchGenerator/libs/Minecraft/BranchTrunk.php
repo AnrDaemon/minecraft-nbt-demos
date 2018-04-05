@@ -6,7 +6,7 @@
 namespace AnrDaemon\Minecraft;
 
 use
-  AnrDaemon\Misc\Coordinate3D as Coords,
+  AnrDaemon\Math\Point,
   AnrDaemon\Misc\MtRand;
 
 class BranchTrunk
@@ -26,7 +26,7 @@ implements Interfaces\BranchTrunk
   public $stem;
   public $branch;
 
-  public function __construct(Coords $p0, Coords $dir, $len, $r0, $r1)
+  public function __construct(Point $p0, Point $dir, $len, $r0, $r1)
   {
     $vl = $dir->distance(0, 0, 0);
     if($vl == 1)
@@ -39,7 +39,7 @@ implements Interfaces\BranchTrunk
     {
       $this->ap = atan2($dir->y, $dir->x);
       $this->av = asin($dir->z / $vl);
-      $this->dir = Coords::fromPolar(1, $this->ap, $this->av);
+      $this->dir = Point::fromPolar(1, $this->ap, $this->av);
     }
 
     $this->p0 = clone $p0;
@@ -52,34 +52,34 @@ implements Interfaces\BranchTrunk
     $sap = sin($this->ap - M_PI / 2);
     $sav = sin($this->av - M_PI / 2);
 
-    $points[] = new Coords(
+    $points[] = Point::fromCartesian(
         $this->p0->x + $this->r0 * $cap,
         $this->p0->y + $this->r0 * $sap,
         $this->p0->z + $this->r0 * $sav
       );
-    $points[] = new Coords(
+    $points[] = Point::fromCartesian(
         $this->p0->x - $this->r0 * $cap,
         $this->p0->y - $this->r0 * $sap,
         $this->p0->z - $this->r0 * $sav
       );
-    $points[] = new Coords(
+    $points[] = Point::fromCartesian(
         $this->p1->x + $this->r1 * $cap,
         $this->p1->y + $this->r1 * $sap,
         $this->p1->z + $this->r1 * $sav
       );
-    $points[] = new Coords(
+    $points[] = Point::fromCartesian(
         $this->p1->x - $this->r1 * $cap,
         $this->p1->y - $this->r1 * $sap,
         $this->p1->z - $this->r1 * $sav
       );
 
-    $this->red = new Coords(
+    $this->red = Point::fromCartesian(
         floor(min($points[0]['x'], $points[1]['x'], $points[2]['x'], $points[3]['x'])),
         floor(min($points[0]['y'], $points[1]['y'], $points[2]['y'], $points[3]['y'])),
         floor(min($points[0]['z'], $points[1]['z'], $points[2]['z'], $points[3]['z']))
       );
 
-    $this->blue = new Coords(
+    $this->blue = Point::fromCartesian(
         ceil(max($points[0]['x'], $points[1]['x'], $points[2]['x'], $points[3]['x'])),
         ceil(max($points[0]['y'], $points[1]['y'], $points[2]['y'], $points[3]['y'])),
         ceil(max($points[0]['z'], $points[1]['z'], $points[2]['z'], $points[3]['z']))
@@ -96,7 +96,7 @@ implements Interfaces\BranchTrunk
     $len = max(1, $branch->len + $range['length'] * MtRand::p());
     $dia = max(1, 2 * $branch->r1 + $range['dia'] * MtRand::p());
     return new self($branch->p1,
-      Coords::fromPolar(1, $ap, $av),
+      Point::fromPolar(1, $ap, $av),
       $len, $branch->r1, $dia / 2);
   }
 
@@ -200,7 +200,7 @@ L = sqrt(
   private $k;
   final public function toVoxel($x, $y = null, $z = null)
   {
-    if($x instanceof Coords)
+    if($x instanceof Point)
     {
       $z = $x['z'];
       $y = $x['y'];

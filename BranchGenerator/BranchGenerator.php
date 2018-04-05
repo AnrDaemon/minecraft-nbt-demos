@@ -1,7 +1,7 @@
 <?php
 
 use
-  AnrDaemon\Misc\Coordinate3D as Coords,
+  AnrDaemon\Math\Point,
   AnrDaemon\Misc\MtRand,
   AnrDaemon\Minecraft\BranchTrunk,
   AnrDaemon\Minecraft\BranchTwister;
@@ -11,7 +11,7 @@ if(!isset($_GET['seed']))
 
 mt_srand($_GET['seed']);
 
-$p0 = new Coords(632, 53, 40);
+$p0 = Point::fromCartesian(632, 53, 40);
 $ap = deg2rad(-90);
 $av = deg2rad(2);
 $len = 28;
@@ -44,7 +44,7 @@ $branch->setRange(array(
   ))
   ->setLimit(array('dia' => 1.7));
 
-$trunks[0] = new BranchTrunk($p0, Coords::fromPolar(1, $ap, $av), $len, $r0, $r1);
+$trunks[0] = new BranchTrunk($p0, Point::fromPolar(1, $ap, $av), $len, $r0, $r1);
 $trunks[0]->branch = $branch;
 $trunks[0]->stem = $stem;
 
@@ -52,7 +52,7 @@ unset($branch, $stem);
 
 $q0[] = $trunks[0];
 
-$white = new Coords(round($p0['x']), round($p0['y']), round($p0['z']));
+$white = Point::fromCartesian(round($p0['x']), round($p0['y']), round($p0['z']));
 $red = clone $trunks[0]->red;
 $blue = clone $trunks[0]->blue;
 
@@ -68,14 +68,18 @@ for($n = 0; $n < 6; $n++)
       $q0[] = $trunk;
 
       // Expand schematic bounding box.
-      $red['x'] = min($red['x'], $trunk->red['x']);
-      $red['y'] = min($red['y'], $trunk->red['y']);
-      $red['z'] = min($red['z'], $trunk->red['z']);
-      $blue['x'] = max($blue['x'], $trunk->blue['x']);
-      $blue['y'] = max($blue['y'], $trunk->blue['y']);
-      $blue['z'] = max($blue['z'], $trunk->blue['z']);
+      $red = Point::fromCartesian(
+        min($red['x'], $trunk->red['x']),
+        min($red['y'], $trunk->red['y']),
+        min($red['z'], $trunk->red['z'])
+      );
+      $blue = Point::fromCartesian(
+        max($blue['x'], $trunk->blue['x']),
+        max($blue['y'], $trunk->blue['y']),
+        max($blue['z'], $trunk->blue['z'])
+      );
     }
   }
 }
 
-$dims = new Coords(1 + $blue['x'] - $red['x'], 1 + $blue['y'] - $red['y'], 1 + $blue['z'] - $red['z']);
+$dims = Point::fromCartesian(1 + $blue['x'] - $red['x'], 1 + $blue['y'] - $red['y'], 1 + $blue['z'] - $red['z']);

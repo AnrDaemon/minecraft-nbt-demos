@@ -6,11 +6,11 @@
 namespace AnrDaemon\Minecraft\Interfaces;
 
 use
-  AnrDaemon\Misc\Coordinate3D as Coords;
+  AnrDaemon\Math\Point;
 
 interface BranchTrunk
 {
-  public function __construct(Coords $p0, Coords $dir, $len, $r0, $r1);
+  public function __construct(Point $p0, Point $dir, $len, $r0, $r1);
   public function next();
   public function toVoxel($x, $y = null, $z = null);
 }
