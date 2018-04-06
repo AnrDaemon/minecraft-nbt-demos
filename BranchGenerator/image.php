@@ -1,25 +1,15 @@
 #!/usr/bin/env php -f
 <?php
 
+require_once __DIR__ . '/init.php';
+
 use AnrDaemon\Math\Point;
-
-$_GET['seed'] = 3810;
-
-require_once dirname(__DIR__) . '/vendor/autoload.php';
-require_once 'libs/classloader.php';
-require_once 'BranchGenerator.php';
-
-$dxp = round((512 - $dims->x) / 2 - $red->x);
-$dyp = round((384 - $dims->y) / 2 - $red->y);
-
-$dxs = round((512 - $dims->y) / 2 - $red->y);
-$dys = 512 - round(((128 - $dims->z) / 2 - $red->z));
 
 $planOff = 96;
 $sideOff = 128;
 $offp = Point::fromCartesian(256, 256 -$planOff, 0);
 $offs = Point::fromCartesian(256 -$sideOff, 256 +$sideOff, 0);
-$dz = 448;
+$dz = 480;
 
 $canvas = imagecreatetruecolor(512, 512);
 

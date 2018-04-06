@@ -1,13 +1,12 @@
 #!/usr/bin/env php
 <?php
 
-$_GET['seed'] = 3810;
+require_once __DIR__ . '/init.php';
 
-require_once dirname(__DIR__) . '/vendor/autoload.php';
-require_once 'libs/classloader.php';
-require_once 'BranchGenerator.php';
-
+use AnrDaemon\Math\Point;
 use AnrDaemon\Minecraft\NBT;
+
+$offset = Point::fromCartesian(0, 0, 0);
 
 $nbt = new NBT\TAG_Compound('Schematic');
 $nbt[] = $map = new NBT\TAG_Compound('SchematicaMapping');
@@ -26,6 +25,7 @@ $map[] = new NBT\TAG_Short('minecraft:quartz_block', 2);
 
 foreach($trunks as $trunk)
 {
+  $trunk->len = $trunk->p0->distance($trunk->p1);
   for($z = $trunk->red->z; $z <= $trunk->blue->z; $z++)
   {
     for($y = $trunk->red->y; $y <= $trunk->blue->y; $y++)
@@ -41,14 +41,17 @@ foreach($trunks as $trunk)
 
 $blocks[$white->x - $red->x + $dims->x * ($white->y - $red->y + $dims->y * ($white->z - $red->z))] = 2;
 
+$white = $red->translate($offset);
+$fname = "branch_{$_GET['seed']}({$white->x},{$white->z},{$white->y}).schematic";
+
 if(PHP_SAPI === 'cli')
 {
-  $file = new NBT\CompressedWriter(new \SplFileObject(__DIR__ . "/branch.schematic", 'wb'));
+  $file = new NBT\CompressedWriter(new \SplFileObject(__DIR__ . "/$fname", 'wb'));
 }
 else
 {
   header('Content-Type: application/x-minecraft-schematic');
-  header('Content-Disposition: attachment; filename="branch.schematic"');
+  header(sprintf('Content-Disposition: attachment; filename="%s"', urlencode($fname)));
   $file = new NBT\CompressedWriter(new \SplFileObject("php://stdout", 'ab'));
 }
 
