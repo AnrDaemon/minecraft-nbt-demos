@@ -18,8 +18,6 @@ implements Interfaces\BranchTrunk
   public $len;
   public $r0;
   public $r1;
-  public $ap;
-  public $av;
   public $red;
   public $blue;
 
@@ -33,62 +31,49 @@ implements Interfaces\BranchTrunk
 
   public function __construct(Point $p0, Point $dir, $len, $r0, $r1)
   {
-    $vl = $dir->distance(0, 0, 0);
-    if($vl == 1)
-    {
-      $this->ap = atan2($dir->y, $dir->x);
-      $this->av = asin($dir->z);
-      $this->dir = clone $dir;
-    }
-    else
-    {
-      $this->ap = atan2($dir->y, $dir->x);
-      $this->av = asin($dir->z / $vl);
-      $this->dir = Point::fromPolar(1, $this->ap, $this->av);
-    }
+    $this->p0 = $p0;
+    $this->dir = $dir;
+    $this->len = (float)$len;
+    $this->p1 = $p0->translate($this->dir, $this->len);
+    $this->r0 = (float)$r0;
+    $this->r1 = (float)$r1;
 
-    $this->p0 = clone $p0;
-    $this->p1 = $p0->translate($len * $this->dir->x, $len * $this->dir->y, $len * $this->dir->z);
-    $this->len = $len;
-    $this->r0 = $r0;
-    $this->r1 = $r1;
-
-    $cap = cos($this->ap - M_PI / 2);
-    $sap = sin($this->ap - M_PI / 2);
-    $sav = sin($this->av - M_PI / 2);
+    $cap = cos($dir->ap - M_PI / 2);
+    $sap = sin($dir->ap - M_PI / 2);
+    $sav = sin($dir->av - M_PI / 2);
 
     $points[] = Point::fromCartesian(
-        $this->p0->x + $this->r0 * $cap,
-        $this->p0->y + $this->r0 * $sap,
-        $this->p0->z + $this->r0 * $sav
-      );
+      $this->p0->x + $this->r0 * $cap,
+      $this->p0->y + $this->r0 * $sap,
+      $this->p0->z + $this->r0 * $sav
+    );
     $points[] = Point::fromCartesian(
-        $this->p0->x - $this->r0 * $cap,
-        $this->p0->y - $this->r0 * $sap,
-        $this->p0->z - $this->r0 * $sav
-      );
+      $this->p0->x - $this->r0 * $cap,
+      $this->p0->y - $this->r0 * $sap,
+      $this->p0->z - $this->r0 * $sav
+    );
     $points[] = Point::fromCartesian(
-        $this->p1->x + $this->r1 * $cap,
-        $this->p1->y + $this->r1 * $sap,
-        $this->p1->z + $this->r1 * $sav
-      );
+      $this->p1->x + $this->r1 * $cap,
+      $this->p1->y + $this->r1 * $sap,
+      $this->p1->z + $this->r1 * $sav
+    );
     $points[] = Point::fromCartesian(
-        $this->p1->x - $this->r1 * $cap,
-        $this->p1->y - $this->r1 * $sap,
-        $this->p1->z - $this->r1 * $sav
-      );
+      $this->p1->x - $this->r1 * $cap,
+      $this->p1->y - $this->r1 * $sap,
+      $this->p1->z - $this->r1 * $sav
+    );
 
     $this->red = Point::fromCartesian(
-        floor(min($points[0]->x, $points[1]->x, $points[2]->x, $points[3]->x)),
-        floor(min($points[0]->y, $points[1]->y, $points[2]->y, $points[3]->y)),
-        floor(min($points[0]->z, $points[1]->z, $points[2]->z, $points[3]->z))
-      );
+      floor(min($points[0]->x, $points[1]->x, $points[2]->x, $points[3]->x)),
+      floor(min($points[0]->y, $points[1]->y, $points[2]->y, $points[3]->y)),
+      floor(min($points[0]->z, $points[1]->z, $points[2]->z, $points[3]->z))
+    );
 
     $this->blue = Point::fromCartesian(
-        ceil(max($points[0]->x, $points[1]->x, $points[2]->x, $points[3]->x)),
-        ceil(max($points[0]->y, $points[1]->y, $points[2]->y, $points[3]->y)),
-        ceil(max($points[0]->z, $points[1]->z, $points[2]->z, $points[3]->z))
-      );
+      ceil(max($points[0]->x, $points[1]->x, $points[2]->x, $points[3]->x)),
+      ceil(max($points[0]->y, $points[1]->y, $points[2]->y, $points[3]->y)),
+      ceil(max($points[0]->z, $points[1]->z, $points[2]->z, $points[3]->z))
+    );
   }
 
   /** Spawn a new branch from the given coords.
@@ -96,8 +81,8 @@ implements Interfaces\BranchTrunk
   */
   private function branch(self $branch, $range)
   {
-    $ap = $branch->ap + $range['yaw'] * MtRand::f();
-    $av = $branch->av + $range['roll'] * MtRand::f();
+    $ap = $branch->dir->ap + $range['yaw'] * MtRand::f();
+    $av = $branch->dir->av + $range['roll'] * MtRand::f();
     $len = max(1, $branch->len + $range['length'] * MtRand::p());
     $dia = max(1, 2 * $branch->r1 + $range['dia'] * MtRand::p());
     return new self($branch->p1,
@@ -127,7 +112,7 @@ implements Interfaces\BranchTrunk
       $twist->r1 += $this->branch['force']['dia'];
       $twist->len *= $this->branch['force']['length'];
 
-      $twist->ap += $this->branch['force']['yaw'];
+      $twist->dir = $twist->dir->rotate($this->branch['force']['yaw'], 0);
       if(MtRand::p() > 0)
       {
         $trunk = $this->branch($twist, $this->branch['range']);
@@ -140,7 +125,7 @@ implements Interfaces\BranchTrunk
         }
       }
 
-      $twist->ap -= 2 * $this->branch['force']['yaw'];
+      $twist->dir = $twist->dir->rotate(-2 * $this->branch['force']['yaw'], 0);
       if(MtRand::p() > 0)
       {
         $trunk = $this->branch($twist, $this->branch['range']);
