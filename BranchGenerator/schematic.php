@@ -6,8 +6,6 @@ require_once __DIR__ . '/init.php';
 use AnrDaemon\Math\Point;
 use AnrDaemon\Minecraft\NBT;
 
-$offset = Point::fromCartesian(0, 0, 0);
-
 $nbt = new NBT\TAG_Compound('Schematic');
 $nbt[] = $map = new NBT\TAG_Compound('SchematicaMapping');
 $nbt[] = new NBT\TAG_Short('Width', $dims->x);
