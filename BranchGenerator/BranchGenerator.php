@@ -44,28 +44,25 @@ $branch->setRange(array(
   ))
   ->setLimit(array('dia' => 1.7));
 
-$trunks[0] = new BranchTrunk($p0, Point::fromPolar(1, $ap, $av), $len, $r0, $r1);
-$trunks[0]->branch = $branch;
-$trunks[0]->stem = $stem;
+$trunk = new BranchTrunk($p0, Point::fromPolar(1, $ap, $av), $len, $r0, $r1);
+$trunk->branch = $branch;
+$trunk->stem = $stem;
 
 unset($branch, $stem);
 
-$q0[] = $trunks[0];
-
 $white = Point::fromCartesian(round($p0->x), round($p0->y), round($p0->z));
-$red = clone $trunks[0]->red;
-$blue = clone $trunks[0]->blue;
+$red = clone $trunk->red;
+$blue = clone $trunk->blue;
 
+$q0[] = $trunks[] = $trunk;
 for($n = 0; $n < 6; $n++)
 {
   $q = $q0; $q0 = array();
   foreach($q as $joint)
   {
-    $_t = $joint->next();
-    foreach($_t as $trunk)
+    foreach($joint->next() as $trunk)
     {
-      $trunks[] = $trunk;
-      $q0[] = $trunk;
+      $q0[] = $trunks[] = $trunk;
 
       // Expand schematic bounding box.
       $red = Point::fromCartesian(
