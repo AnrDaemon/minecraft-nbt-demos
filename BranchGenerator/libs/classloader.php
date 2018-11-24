@@ -16,11 +16,11 @@ return \call_user_func(function(){
         return;
 
       $className = \substr($className, $nsl);
-      if(\strlen($className) < 2)
+      if($className[0] !== "\\")
         return;
 
-      $path = \realpath(__DIR__ . \strtr("$className.php", '\\', '/'));
-      if(!empty($path))
+      $path = __DIR__ . \strtr("$className.php", '\\', '/');
+      if(\file_exists($path))
       {
         return include_once $path;
       }
